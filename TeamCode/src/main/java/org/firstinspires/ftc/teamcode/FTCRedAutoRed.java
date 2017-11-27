@@ -81,6 +81,7 @@ public class FTCRedAutoRed extends LinearOpMode {
             telemetry.addData("COLOR VAL RED ", colorSensor.getNormalizedColors().red);
             NormalizedRGBA colors = colorSensor.getNormalizedColors();
 
+
             telemetry.addLine()
                     .addData("a", "%.3f", colors.alpha)
                     .addData("r", "%.3f", colors.red)
