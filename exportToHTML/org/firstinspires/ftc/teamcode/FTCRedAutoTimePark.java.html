@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>FTCRedAutoTimePark.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(98,151,85); font-style: italic; }
+.s3 { color: rgb(106,135,89); }
+.s4 { color: rgb(128,128,128); }
+.s5 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+FTCRedAutoTimePark.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">package </span><span class="s1">org.firstinspires.ftc.teamcode</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">com.qualcomm.robotcore.eventloop.opmode.Autonomous</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.qualcomm.robotcore.eventloop.opmode.LinearOpMode</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">com.qualcomm.robotcore.util.ElapsedTime</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s2">/** 
+ * Created by nmckelvey on 11/18/17. 
+ */</span><span class="s1"> 
+ 
+@Autonomous(name=</span><span class="s3">&quot;Auto Park&quot;</span><span class="s1">) 
+</span><span class="s0">public class </span><span class="s1">FTCRedAutoTimePark </span><span class="s0">extends </span><span class="s1">LinearOpMode { 
+   FTCRedTestHardware robot = </span><span class="s0">new </span><span class="s1">FTCRedTestHardware()</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private </span><span class="s1">ElapsedTime runtime = </span><span class="s0">new </span><span class="s1">ElapsedTime()</span><span class="s0">;</span><span class="s1"> 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">runOpMode() { 
+        robot.init(hardwareMap)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s4">// Send telemetry message to signify robot waiting;</span><span class="s1"> 
+        telemetry.addData(</span><span class="s3">&quot;Status&quot;</span><span class="s0">, </span><span class="s3">&quot;Ready to run&quot;</span><span class="s1">)</span><span class="s0">;    </span><span class="s4">//</span><span class="s1"> 
+        telemetry.update()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s4">// Wait for the game to start (driver presses PLAY)</span><span class="s1"> 
+        waitForStart()</span><span class="s0">;</span><span class="s1"> 
+        robot.leftGlypha.setPosition(</span><span class="s5">.3</span><span class="s1">)</span><span class="s0">;  </span><span class="s4">//Brings left glyph servo mechanism to a middle position</span><span class="s1"> 
+        robot.rightGlypha.setPosition(</span><span class="s5">.7</span><span class="s1">)</span><span class="s0">;  </span><span class="s4">//Brings right glyph servo mechanism to a middle position</span><span class="s1"> 
+        robot.rightGlyphb.setPosition(</span><span class="s5">.3</span><span class="s1">)</span><span class="s0">;  </span><span class="s4">//Brings left glyph servo mechanism to a middle position</span><span class="s1"> 
+        robot.leftGlyphb.setPosition(</span><span class="s5">.7</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        robot.frontLeftMotor.setPower(</span><span class="s5">.1</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        robot.frontRightMotor.setPower(</span><span class="s5">.1</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        robot.rearLeftMotor.setPower(</span><span class="s5">.1</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        robot.rearRightMotor.setPower(</span><span class="s5">.1</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        runtime.reset()</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">while </span><span class="s1">(opModeIsActive() &amp;&amp; (runtime.seconds() &lt; </span><span class="s5">2</span><span class="s1">)) { </span><span class="s4">//465 at the end after using encoders</span><span class="s1"> 
+            telemetry.addData(</span><span class="s3">&quot;Path&quot;</span><span class="s0">, </span><span class="s3">&quot;Leg 1: %2f S Elapsed&quot;</span><span class="s0">, </span><span class="s1">runtime.seconds())</span><span class="s0">;</span><span class="s1"> 
+            telemetry.update()</span><span class="s0">;</span><span class="s1"> 
+        } 
+</span><span class="s4">//        robot.leftGlyph.setPosition(.2);</span><span class="s1"> 
+</span><span class="s4">//        robot.rightGlyph.setPosition(.8);</span><span class="s1"> 
+</span><span class="s4">//        robot.frontLeftMotor.setPower(.5);</span><span class="s1"> 
+</span><span class="s4">//        robot.rearLeftMotor.setPower(.5);</span><span class="s1"> 
+</span><span class="s4">//        robot.frontRightMotor.setPower(-.5);</span><span class="s1"> 
+</span><span class="s4">//        robot.rearRightMotor.setPower(-.5);</span><span class="s1"> 
+</span><span class="s4">//        runtime.reset();</span><span class="s1"> 
+</span><span class="s4">//        while (opModeIsActive() &amp;&amp; (runtime.seconds() &lt; 1.25)) {</span><span class="s1"> 
+</span><span class="s4">//            telemetry.addData(&quot;Path&quot;, &quot;Leg 1: %2f S Elapsed&quot;, runtime.seconds());</span><span class="s1"> 
+</span><span class="s4">//            telemetry.update();</span><span class="s1"> 
+        </span><span class="s4">//}</span><span class="s1"> 
+        robot.leftGlypha.setPosition(</span><span class="s5">.3</span><span class="s1">)</span><span class="s0">;  </span><span class="s4">//Brings left glyph servo mechanism to a middle position</span><span class="s1"> 
+        robot.rightGlypha.setPosition(</span><span class="s5">.7</span><span class="s1">)</span><span class="s0">;  </span><span class="s4">//Brings right glyph servo mechanism to a middle position</span><span class="s1"> 
+        robot.rightGlyphb.setPosition(</span><span class="s5">.3</span><span class="s1">)</span><span class="s0">;  </span><span class="s4">//Brings left glyph servo mechanism to a middle position</span><span class="s1"> 
+        robot.leftGlyphb.setPosition(</span><span class="s5">.7</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        robot.frontLeftMotor.setPower(</span><span class="s5">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        robot.rearLeftMotor.setPower(</span><span class="s5">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        robot.frontRightMotor.setPower(</span><span class="s5">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        robot.rearRightMotor.setPower(</span><span class="s5">0</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+        flEncoderVal = robot.frontLeftMotor.getCurrentPosition()</span><span class="s0">;</span><span class="s1"> 
+        frEncoderVal = robot.frontRightMotor.getCurrentPosition()</span><span class="s0">;</span><span class="s1"> 
+        telemetry.addData(</span><span class="s3">&quot;right drive&quot;</span><span class="s0">, </span><span class="s1">frEncoderVal)</span><span class="s0">;</span><span class="s1"> 
+        telemetry.addData(</span><span class="s3">&quot;left drive&quot;</span><span class="s0">, </span><span class="s1">flEncoderVal)</span><span class="s0">;</span><span class="s1"> 
+        telemetry.addData(</span><span class="s3">&quot;Path&quot;</span><span class="s0">, </span><span class="s3">&quot;Complete&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+        telemetry.update()</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s4">//name=&quot;NeveRest 40 Gearmotor&quot;, ticksPerRev=1120, gearing=40, maxRPM=160, orientation=Rotation.CCW)</span><span class="s1"> 
+    } 
+    </span><span class="s0">private double </span><span class="s1">flEncoderVal</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private double </span><span class="s1">frEncoderVal</span><span class="s0">;</span><span class="s1"> 
+} 
+</span></pre>
+</body>
+</html>

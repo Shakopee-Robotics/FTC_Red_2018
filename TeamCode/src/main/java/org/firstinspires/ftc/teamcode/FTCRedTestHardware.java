@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -34,9 +35,11 @@ public class FTCRedTestHardware {
     public DcMotor rearRightMotor   = null;
     public DcMotor lowerLiftMotor   = null;
     public DcMotor upperLiftMotor   = null;
-    public Servo leftGlyph          = null;
-    public Servo rightGlyph         = null;
-    public Servo jewel              = null;
+    public Servo leftGlypha          = null;
+    public Servo leftGlyphb          = null;
+    public Servo rightGlypha         = null;
+    public Servo rightGlyphb         = null;
+    public Servo colorArm         = null;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -66,7 +69,7 @@ public class FTCRedTestHardware {
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         rearLeftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
         rearRightMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-        upperLiftMotor.setDirection(DcMotor.Direction.REVERSE);
+        upperLiftMotor.setDirection(DcMotor.Direction.FORWARD);
         lowerLiftMotor.setDirection(DcMotor.Direction.FORWARD);
         // Set all motors to zero power
         frontLeftMotor.setPower(0);
@@ -77,20 +80,25 @@ public class FTCRedTestHardware {
         upperLiftMotor.setPower(0);
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rearLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rearRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        upperLiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lowerLiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        upperLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lowerLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
-        leftGlyph  = hwMap.get(Servo.class, "gleft");
-        rightGlyph = hwMap.get(Servo.class, "gright");
-        leftGlyph.setPosition(ARM_UP);
-        rightGlyph.setPosition(MID_SERVO);
-        jewel = hwMap.get(Servo.class, "jew");
-        jewel.setPosition(0);
+        leftGlypha  = hwMap.get(Servo.class, "gla");
+        rightGlypha = hwMap.get(Servo.class, "gra");
+        leftGlyphb  = hwMap.get(Servo.class, "glb");
+        rightGlyphb = hwMap.get(Servo.class, "grb");
+        colorArm = hwMap.get(Servo.class, "ca");
+        leftGlyphb.setPosition(0);
+        rightGlyphb.setPosition(1);
+        leftGlypha.setPosition(0);
+        rightGlypha.setPosition(1);
+        colorArm.setPosition(0);
+
     }
 
     /***

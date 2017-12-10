@@ -4,55 +4,46 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-/**
- * Created by nmckelvey on 11/18/17.
- */
-
 @Autonomous(name="Auto Park")
 public class FTCRedAutoTimePark extends LinearOpMode {
-   FTCRedHardware2 robot = new FTCRedHardware2();
-    private ElapsedTime runtime = new ElapsedTime();
+   FTCRedTestHardware robot = new FTCRedTestHardware(); //Declare the Robot Hardware to be used
+    private ElapsedTime runtime = new ElapsedTime(); //Creates a runtime to elapse during the autonomous
     @Override
     public void runOpMode() {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap); //Initialize hardware
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Ready to run");    //
+        telemetry.addData("Status", "Ready to run");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-        robot.leftGlyph.setPosition(.2);
-        robot.rightGlyph.setPosition(.8);
-        robot.frontLeftMotor.setPower(.1);
-        robot.frontRightMotor.setPower(.1);
-        robot.rearLeftMotor.setPower(.1);
-        robot.rearRightMotor.setPower(.1);
+        //Drives the robot forward at 1/10th speed for two seconds
+        robot.leftGlypha.setPosition(.3);   //Brings upper left glyph servo mechanism to a middle position
+        robot.leftGlyphb.setPosition(.7);   //Brings lower left glyph servo mechanism to a middle position
+        robot.rightGlypha.setPosition(.7);  //Brings upper right glyph servo mechanism to a middle position
+        robot.rightGlyphb.setPosition(.3);  //Brings lower right glyph servo mechanism to a middle position
+        robot.frontLeftMotor.setPower(.1);  //Sets the front left motor to 1/10th forward speed
+        robot.frontRightMotor.setPower(.1); //Sets the front right motor to 1/10th forward speed
+        robot.rearLeftMotor.setPower(.1);   //Sets the rear left motor to 1/10th forward speed
+        robot.rearRightMotor.setPower(.1);  //Sets the rear right motor to 1/10th forward speed
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 2)) {
+        while (opModeIsActive() && (runtime.seconds() < 2)) { //465 at the end after using encoders
             telemetry.addData("Path", "Leg 1: %2f S Elapsed", runtime.seconds());
             telemetry.update();
         }
-        robot.leftGlyph.setPosition(.2);
-        robot.rightGlyph.setPosition(.8);
-        robot.frontLeftMotor.setPower(.5);
-        robot.rearLeftMotor.setPower(.5);
-        robot.frontRightMotor.setPower(-.5);
-        robot.rearRightMotor.setPower(-.5);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1.25)) {
-            telemetry.addData("Path", "Leg 1: %2f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
-        robot.leftGlyph.setPosition(.2);
-        robot.rightGlyph.setPosition(.8);
-        robot.frontLeftMotor.setPower(0);
-        robot.rearLeftMotor.setPower(0);
-        robot.frontRightMotor.setPower(0);
-        robot.rearRightMotor.setPower(0);
-
-        telemetry.addData("Path", "Complete");
+        //Parks robot
+        robot.leftGlypha.setPosition(.7);   //Brings upper left glyph servo mechanism to a middle position
+        robot.leftGlyphb.setPosition(.3);   //Brings lower left glyph servo mechanism to a middle position
+        robot.rightGlypha.setPosition(.3);  //Brings upper right glyph servo mechanism to a middle position
+        robot.rightGlyphb.setPosition(.7);  //Brings lower right glyph servo mechanism to a middle position
+        robot.frontLeftMotor.setPower(0);   //Sets the front left motor to be stopped
+        robot.rearLeftMotor.setPower(0);    //Sets the front right motor to be stopped
+        robot.frontRightMotor.setPower(0);  //Sets the rear left motor to be stopped
+        robot.rearRightMotor.setPower(0);   //Sets the rear right motor to be stopped
+        telemetry.addData("Path", "Complete"); //displays that the autonomous has completed
         telemetry.update();
-        sleep(1000);
+
+        //name="NeveRest 40 Gearmotor", ticksPerRev=1120, gearing=40, maxRPM=160, orientation=Rotation.CCW)
     }
 }
