@@ -16,9 +16,13 @@ public class FTCRedTestOp extends OpMode {
     /* Declare OpMode members. */
     FTCRedTestHardware robot = new FTCRedTestHardware(); // use the class created to define a robot's hardware
     NormalizedColorSensor colorSensor;
+    double glyphseta = 1;
+    double glyphsetb = 0;
     double          clawOffset  = 0 ;                  // Servo mid position
     double    UP_SPEED;                 // sets rate to move servo
     double    DOWN_SPEED;       // sets rate to move servo
+    boolean rgc;
+    boolean hs;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -26,7 +30,8 @@ public class FTCRedTestOp extends OpMode {
     public void init() {
         // Initialize the hardware variables.
         robot.init(hardwareMap);
-
+        rgc = true;
+        hs = false;
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello FTC Red Driver");    //
         //Setting Encoder limit Values
@@ -56,6 +61,11 @@ public class FTCRedTestOp extends OpMode {
         robot.rightGlyphb.setPosition(.35);   //Sets the lower right glyph servo to an open position
         robot.leftGlypha.setPosition(.35);    //Sets the upper left glyph servo to an open position
         robot.leftGlyphb.setPosition(.65);    //Sets the upper left glyph servo to an open position
+        robot.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /*
@@ -64,7 +74,8 @@ public class FTCRedTestOp extends OpMode {
     @Override
     public void loop() {
         //Sets the gamepad joysticks to shorter doubles
-
+        telemetry.addData("Color arm", robot.colorArm.getPosition());
+        telemetry.addData("right glypha", robot.rightGlypha.getPosition());
         ch1 = gamepad1.right_stick_x;
         ch2 = gamepad1.right_stick_y;
         ch3 = -gamepad1.left_stick_y;
@@ -104,10 +115,12 @@ public class FTCRedTestOp extends OpMode {
          * right motor and the rear left motor from the front
          * left motor and the rear right motor.
          */
-        robot.frontLeftMotor.setPower((ch3 + ch1 - ch4));
-        robot.rearLeftMotor.setPower(ch3 + ch1 + ch4);
-        robot.rearRightMotor.setPower((ch3 - ch1 - ch4));
-        robot.frontRightMotor.setPower(ch3 - ch1 + ch4);
+
+            robot.frontLeftMotor.setPower((ch3 + ch1 - ch4));
+            robot.rearLeftMotor.setPower(ch3 + ch1 + ch4);
+            robot.rearRightMotor.setPower((ch3 - ch1 - ch4));
+            robot.frontRightMotor.setPower(ch3 - ch1 + ch4);
+
 
         /*
         <<<<LIFT MOTORS>>>>
@@ -129,22 +142,35 @@ public class FTCRedTestOp extends OpMode {
         /*
         <<<<SERVOS>>>>
          */
-        if (gamepad2.right_bumper) {
+        if(gamepad2.dpad_up){
+            clawOffset = 0;
+        } else if(gamepad2.dpad_down){
+            clawOffset = 1;
+        }
+        /*
+        if(gamepad2.dpad_left && rgc == true){
+            rgc = false;
+        } else if(gamepad2.dpad_left && rgc == false){
+            rgc = true;
+        }
+        */
+        if (gamepad2.right_bumper ) {
             robot.rightGlypha.setPosition(.65);   //Sets the upper right glyph servo to an open position
             robot.rightGlyphb.setPosition(.35);   //Sets the lower right glyph servo to an open position
             robot.leftGlypha.setPosition(.35);    //Sets the upper left glyph servo to an open position
             robot.leftGlyphb.setPosition(.65);    //Sets the upper left glyph servo to an open position
-        } else if (gamepad2.left_bumper) {
+        } else if (gamepad2.left_bumper ) {
             robot.rightGlypha.setPosition(0);   //Sets the upper right glyph servo to a closed position
             robot.rightGlyphb.setPosition(1);   //Sets the lower right glyph servo to a closed position
             robot.leftGlypha.setPosition(1);    //Sets the upper left glyph servo to a closed position
             robot.leftGlyphb.setPosition(0);    //Sets the upper left glyph servo to a closed position
-        } else if(gamepad2.a){
+        } else if(gamepad2.a ){
             robot.leftGlypha.setPosition(.7);   //Brings upper left glyph servo mechanism to a middle position
             robot.leftGlyphb.setPosition(.3);   //Brings lower left glyph servo mechanism to a middle position
             robot.rightGlypha.setPosition(.3);  //Brings upper right glyph servo mechanism to a middle position
             robot.rightGlyphb.setPosition(.7);  //Brings lower right glyph servo mechanism to a middle position
-        } else if(gamepad2.start){
+        }
+        if(gamepad2.start){
             //Resets the lift encoders in the rare case they become off-sync during a match
             robot.upperLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.lowerLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -162,11 +188,6 @@ public class FTCRedTestOp extends OpMode {
             clawOffset -= UP_SPEED;
         } else if (gamepad2.right_trigger > 0){
             clawOffset += DOWN_SPEED;
-        }
-        if(gamepad2.dpad_up){
-            clawOffset = 0;
-        } else if(gamepad2.dpad_down){
-            clawOffset = 1;
         }
 
 

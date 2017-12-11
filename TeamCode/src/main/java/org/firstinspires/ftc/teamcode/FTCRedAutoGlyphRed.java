@@ -69,8 +69,8 @@ import org.firstinspires.ftc.teamcode.FTCRedTestOp;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="auto red encoder")
-public class FTCRedAutoRedEncoders extends LinearOpMode {
+@Autonomous(name="glyph park RED alliance")
+public class FTCRedAutoGlyphRed extends LinearOpMode {
 
     /* Declare OpMode members. */
     FTCRedTestHardware robot   = new FTCRedTestHardware();   // Use a Pushbot's hardware
@@ -101,7 +101,10 @@ public class FTCRedAutoRedEncoders extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-
+        robot.rightGlypha.setPosition(.7);   //Sets the upper right glyph servo to an open position
+        robot.rightGlyphb.setPosition(.3);   //Sets the lower right glyph servo to an open position
+        robot.leftGlypha.setPosition(.3);    //Sets the upper left glyph servo to an open position
+        robot.leftGlyphb.setPosition(.7);    //Sets the upper left glyph servo to an open position
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
         telemetry.update();
@@ -122,67 +125,13 @@ public class FTCRedAutoRedEncoders extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  1,  1, 8.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        // encoderDrive(TURN_SPEED1,   -2,2 , 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        robot.rightGlypha.setPosition(.3);  //Brings upper right glyph servo mechanism to a middle position
-        robot.rightGlyphb.setPosition(.7);  //Brings lower right glyph servo mechanism to a middle position
-        robot.colorArm.setPosition(.6);   //Sets the lower right glyph servo to an open position
-
-        runtime.reset(); // Resets runtime to 0
-        while (opModeIsActive() && (runtime.seconds() < 2)) {
-            //display elapsed time
-            telemetry.addData("COLOR VAL ", colorSensor.getNormalizedColors().toString());
-            telemetry.addData("COLOR VAL RED ", colorSensor.getNormalizedColors().red);
-            NormalizedRGBA colors = colorSensor.getNormalizedColors();
-            telemetry.addLine()
-                    .addData("a", "%.3f", colors.alpha)
-                    .addData("r", "%.3f", colors.red)
-                    .addData("g", "%.3f", colors.green)
-                    .addData("b", "%.3f", colors.blue);
-            telemetry.update();
-            if (colorSensor.getNormalizedColors().red > .08 && runtime.seconds() > 2) {
-                colora = false;
-                //knocks jewel to the left off platform
-                while (runtime.seconds() > 2 && runtime.seconds() < 5){
-                    robot.rightGlypha.setPosition(0);   //Sets the upper right glyph servo to a closed position
-                    robot.rightGlyphb.setPosition(1);   //Sets the lower right glyph servo to a closed position
-                    sleep(250);
-                    robot.colorArm.setPosition(1);   //Sets the lower right glyph servo to an open position
-                    //rotates robot counter-clockwise
-                    robot.frontLeftMotor.setPower(RSN);
-                    robot.rearLeftMotor.setPower(RSN);
-                    robot.frontRightMotor.setPower(RSP);
-                    robot.rearRightMotor.setPower(RSP);
-                }
-
-            } if (colorSensor.getNormalizedColors().blue > 0 && runtime.seconds() > 2 && colora == true) {
-                //knocks jewel to the right off platform
-                while (runtime.seconds() > 2 && runtime.seconds() < 5) {
-                    robot.rightGlypha.setPosition(0);   //Sets the upper right glyph servo to a closed position
-                    robot.rightGlyphb.setPosition(1);   //Sets the lower right glyph servo to a closed position
-                    sleep(250);
-                    robot.colorArm.setPosition(1);   //Sets the lower right glyph servo to an open position
-                    //rotates robot clockwise
-                    robot.frontLeftMotor.setPower(RSP);
-                    robot.rearLeftMotor.setPower(RSP);
-                    robot.frontRightMotor.setPower(RSN);
-                    robot.rearRightMotor.setPower(RSN);
-                }
-            } else if (colora == true && runtime.seconds() > 2.5) {
-                //keeps robot in a stand-still if no color is detected
-                robot.leftGlypha.setPosition(.7);   //Brings upper left glyph servo mechanism to a middle position
-                robot.leftGlyphb.setPosition(.3);   //Brings lower left glyph servo mechanism to a middle position
-                robot.rightGlypha.setPosition(.3);  //Brings upper right glyph servo mechanism to a middle position
-                robot.rightGlyphb.setPosition(.7);  //Brings lower right glyph servo mechanism to a middle position
-                //stops motors
-                robot.frontLeftMotor.setPower(0);
-                robot.rearLeftMotor.setPower(0);
-                robot.frontRightMotor.setPower(0);
-                robot.rearRightMotor.setPower(0);
-            }
-        }
-        encoderDrive(DRIVE_SPEED, -5, -5, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
-
+        robot.rightGlypha.setPosition(0);   //Sets the upper right glyph servo to a closed position
+        robot.rightGlyphb.setPosition(1);   //Sets the lower right glyph servo to a closed position
+        robot.leftGlypha.setPosition(1);    //Sets the upper left glyph servo to a closed position
+        robot.leftGlyphb.setPosition(0);    //Sets the upper left glyph servo to a closed position
+        encoderDrive(DRIVE_SPEED,  34,  34, 8.0);  // S1: Forward 47 Inches with 5 Sec timeout
+        encoderDrive(TURN_SPEED1, 8 ,  -8, 4.0);
+        encoderDrive(DRIVE_SPEED,  6,  6, 2);  // S1: Forward 47 Inches with 5 Sec timeout
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }

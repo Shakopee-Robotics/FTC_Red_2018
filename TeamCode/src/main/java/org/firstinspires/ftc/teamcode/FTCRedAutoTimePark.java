@@ -23,10 +23,10 @@ public class FTCRedAutoTimePark extends LinearOpMode {
         robot.leftGlyphb.setPosition(.7);   //Brings lower left glyph servo mechanism to a middle position
         robot.rightGlypha.setPosition(.7);  //Brings upper right glyph servo mechanism to a middle position
         robot.rightGlyphb.setPosition(.3);  //Brings lower right glyph servo mechanism to a middle position
-        robot.frontLeftMotor.setPower(.1);  //Sets the front left motor to 1/10th forward speed
-        robot.frontRightMotor.setPower(.1); //Sets the front right motor to 1/10th forward speed
-        robot.rearLeftMotor.setPower(.1);   //Sets the rear left motor to 1/10th forward speed
-        robot.rearRightMotor.setPower(.1);  //Sets the rear right motor to 1/10th forward speed
+        robot.frontLeftMotor.setPower(.2);  //Sets the front left motor to 1/10th forward speed
+        robot.frontRightMotor.setPower(.2); //Sets the front right motor to 1/10th forward speed
+        robot.rearLeftMotor.setPower(.2);   //Sets the rear left motor to 1/10th forward speed
+        robot.rearRightMotor.setPower(.2);  //Sets the rear right motor to 1/10th forward speed
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 2)) { //465 at the end after using encoders
             telemetry.addData("Path", "Leg 1: %2f S Elapsed", runtime.seconds());
